@@ -13,17 +13,13 @@ class Unit extends Card{
         this.res=res;
 
     }
+
     attack(target){
         if(target instanceof Unit){
-            if(this.stat.toLowercase()=="resilience"){
-                target.res +=this.magnitude;
-            }else if(this.stat.toLowercase()=="power"){
-                target.power+=this.magnitude;
-            }else
-                console.log("target must be a unit");
-            
-        }
-        
+            target.res-=this.power;
+        }else{
+            throw new Error("Target must be a Unit")
+        }      
     }
 }
 
@@ -35,6 +31,18 @@ class Effect extends Card{
         magnitude>0?
             this.text=`Increase target's ${this.stat} by ${this.magnitude}`:
             this.text=`Reduce target's ${this.stat} by ${this.magnitude}`
+
+    }
+    play(target){
+        if(target instanceof Unit){
+            if(this.stat.toLowerCase() =="resilience"){
+                target.res +=this.magnitude;
+            }else{
+                target.power +=this.magnitude;
+            }
+        }else{
+            throw new Error("Target must be a Unit")
+        }      
 
     }
 }
